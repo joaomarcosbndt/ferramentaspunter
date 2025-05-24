@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculadora de Surebet</title>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0; padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+        /* Fundo degradê com textura sutil */
+        background: linear-gradient(135deg, #f0f4ff, #d9e2ff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    .container {
+        background: white;
+        padding: 30px 35px;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 70, 0.1);
+        max-width: 600px;
+        width: 100%;
+    }
+    h2 {
+        color: #2c2c54;
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+    }
+    label {
+        font-weight: 600;
+        color: #555;
+        display: block;
+        margin-bottom: 6px;
+    }
+    input[type="number"],
+    input[type="text"][disabled] {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 16px;
+        border: 2px solid #bbb;
+        border-radius: 12px;
+        transition: border-color 0.3s;
+        background-color: #fafafa;
+    }
+    input[type="number"]:focus {
+        border-color: #4752ff;
+        outline: none;
+        background-color: white;
+    }
+    input[type="text"][disabled] {
+        color: #333;
+        font-weight: 600;
+    }
+    .odds-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 15px;
+        align-items: flex-start;
+    }
+    .odds-row > div {
+        flex: 1;
+    }
+    button {
+        background-color: #4752ff;
+        color: white;
+        border: none;
+        padding: 14px 0;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 600;
+        width: 100%;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 5px 15px rgba(71, 82, 255, 0.4);
+    }
+    button:hover {
+        background-color: #303edc;
+    }
+    .result {
+        background-color: #e6eeff;
+        color: #2a2a66;
+        font-weight: 700;
+        font-size: 18px;
+        text-align: center;
+        padding: 20px;
+        border-radius: 15px;
+        margin-top: 25px;
+        min-height: 72px;
+        line-height: 1.4;
+        user-select: none;
+        box-shadow: inset 0 0 15px rgba(71, 82, 255, 0.15);
+    }
+    /* Link Home estilizado */
+    a.home-link {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #05284B;
+        color: white;
+        padding: 12px 28px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        transition: transform 0.2s ease, background-color 0.2s ease;
+        z-index: 999;
+        user-select: none;
+    }
+    a.home-link:hover {
+        background-color: #07406E;
+        transform: translateX(-50%) scale(1.1);
+    }
+    /* Responsividade */
+    @media (max-width: 480px) {
+        .odds-row {
+            flex-direction: column;
+        }
+        button {
+            font-size: 16px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-link" title="Voltar para Home">🏠 Home</a>
+
+<div class="container">
+    <h2>Calculadora de Surebet</h2>
+
+    <label for="stake">Stake Total (R$):</label>
+    <input
+        type="number"
+        id="stake"
+        step="any"
+        min="1"
+        placeholder="Ex.: 100"
+        oninput="calcularSurebet()"
+    />
+
+    <div id="oddsContainer">
+        <div class="odds-row">
+            <div>
+                <label>Odd 1:</label>
+                <input
+                    type="number"
+                    step="any"
+                    min="1"
+                    placeholder="Ex.: 1.80"
+                    oninput="calcularSurebet()"
+                />
+            </div>
+            <div>
+                <label>Stake:</label>
+                <input type="text" disabled placeholder="Aposta" />
+            </div>
+        </div>
+        <div class="odds-row">
+            <div>
+                <label>Odd 2:</label>
+                <input
+                    type="number"
+                    step="any"
+                    min="1"
+                    placeholder="Ex.: 2.20"
+                    oninput="calcularSurebet()"
+                />
+            </div>
+            <div>
+                <label>Stake:</label>
+                <input type="text" disabled placeholder="Aposta" />
+            </div>
+        </div>
+    </div>
+
+    <button onclick="adicionarOdd()">+ Adicionar Odd</button>
+
+    <div class="result" id="resultado">Resultado aparecerá aqui</div>
+</div>
+
+<script>
+    const oddsContainer = document.getElementById("oddsContainer");
+    const resultado = document.getElementById("resultado");
+
+    function adicionarOdd() {
+        const quantidade = oddsContainer.children.length + 1;
+        const div = document.createElement("div");
+        div.className = "odds-row";
+        div.innerHTML = `
+            <div>
+                <label>Odd ${quantidade}:</label>
+                <input type="number" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularSurebet()">
+            </div>
+            <div>
+                <label>Stake:</label>
+                <input type="text" disabled placeholder="Aposta">
+            </div>
+        `;
+        oddsContainer.appendChild(div);
+    }
+
+    function calcularSurebet() {
+        const stakeTotal = parseFloat(document.getElementById("stake").value);
+        const oddsRows = oddsContainer.querySelectorAll(".odds-row");
+
+        let overround = 0;
+        const odds = [];
+
+        oddsRows.forEach((row) => {
+            const oddInput = row.querySelector('input[type="number"]');
+            const odd = parseFloat(oddInput.value);
+            if (odd && odd > 1) {
+                odds.push({ odd, row });
+                overround += 100 / odd;
+            }
+        });
+
+        if (!stakeTotal || stakeTotal <= 0 || odds.length < 2) {
+            resultado.textContent = "Preencha o stake e pelo menos duas odds válidas.";
+            odds.forEach((o) => (o.row.querySelector('input[disabled]').value = ""));
+            return;
+        }
+
+        if (overround >= 100) {
+            resultado.textContent = `❌ Não é uma Surebet. Overround: ${overround.toFixed(2)}%`;
+            odds.forEach((o) => (o.row.querySelector('input[disabled]').value = ""));
+            return;
+        }
+
+        odds.forEach((o) => {
+            const stake = (stakeTotal * (100 / o.odd)) / overround;
+            o.row.querySelector('input[disabled]').value = `R$ ${stake.toFixed(2)}`;
+        });
+
+        const lucro = stakeTotal * (1 - overround / 100);
+
+        resultado.innerHTML = `
+            ✅ É uma Surebet!<br><br>
+            Overround: ${overround.toFixed(2)}%<br>
+            📈 Lucro garantido: <strong>R$ ${lucro.toFixed(2)}</strong>
+        `;
+    }
+</script>
+
+</body>
+</html>

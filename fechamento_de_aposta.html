@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculadora de Fechamento - Back & Lay</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background:
+    linear-gradient(135deg, rgba(255, 240, 250, 0.85), rgba(240, 245, 255, 0.85)),
+    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* <== aqui, centraliza verticalmente */
+  padding: 30px 20px; /* padding menor para ficar com mais espaço ao redor */
+  color: #05284B;
+  animation: bgMove 30s ease-in-out infinite;
+  overflow-x: hidden;
+}
+
+
+  @keyframes bgMove {
+    0% { background-position: center 40%; }
+    50% { background-position: center 60%; }
+    100% { background-position: center 40%; }
+  }
+
+  /* NOVO: container geral para as duas calculadoras lado a lado */
+  .calculadoras-wrapper {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 980px;
+    width: 100%;
+  }
+
+  .container {
+    background: rgba(255 255 255 / 0.95);
+    border-radius: 22px;
+    box-shadow: 0 14px 40px rgba(5, 40, 75, 0.12);
+    padding: 30px 35px;
+    flex: 1 1 440px; /* para que cada container ocupe mínimo 440px e cresça */
+    animation: fadeInUp 0.8s ease forwards, pulseShadow 3.5s ease-in-out infinite;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulseShadow {
+    0%, 100% {
+      box-shadow: 0 14px 40px rgba(5, 40, 75, 0.12);
+    }
+    50% {
+      box-shadow: 0 20px 55px rgba(5, 40, 75, 0.25);
+    }
+  }
+
+  .back {
+    background-color: #d4ebffcc;
+  }
+
+  .lay {
+    background-color: #ffe0f0cc;
+  }
+
+  h2 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    letter-spacing: 1.1px;
+    color: #05284B;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    color: #23517c;
+    margin-bottom: 8px;
+  }
+
+  input[type="number"], input[disabled] {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1.1rem;
+    border-radius: 14px;
+    border: 2px solid #a9c9ff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-weight: 500;
+    color: #05284B;
+  }
+
+  input[type="number"]:focus {
+    border-color: #3a5ea6;
+    box-shadow: 0 0 15px #84aaffcc;
+    outline: none;
+  }
+
+  input[disabled] {
+    background-color: #e4f2ff;
+    font-weight: 700;
+    color: #23517c;
+    cursor: default;
+    text-align: center;
+  }
+
+  .row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 18px;
+    align-items: center;
+  }
+
+  .row > div {
+    flex: 1;
+  }
+
+  a[href="index.html"] {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #05284B;
+    color: #fff;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(5, 40, 75, 0.6);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    z-index: 9999;
+    user-select: none;
+  }
+  a[href="index.html"]:hover {
+    background-color: #07406E;
+    transform: translateX(-50%) scale(1.12);
+    box-shadow: 0 10px 30px rgba(5, 40, 75, 0.85);
+  }
+
+  .result label {
+    color: #23517c;
+  }
+
+  .result input {
+    background-color: #dbf7db;
+    border-color: #7cca7c;
+    font-weight: 700;
+    text-align: center;
+    color: #236123;
+    font-size: 1.15rem;
+  }
+
+  /* RESPONSIVO: empilha verticalmente em telas menores */
+  @media (max-width: 980px) {
+    .calculadoras-wrapper {
+      flex-direction: column;
+      max-width: 100%;
+      gap: 25px;
+      padding: 0 15px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .row {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" title="Voltar para Home">🏠 Home</a>
+
+<div class="calculadoras-wrapper">
+  <!-- 🔵 Fechamento de BACK -->
+  <div class="container back">
+    <h2>Fechamento de Aposta BACK → LAY</h2>
+
+    <div class="row">
+      <div>
+        <label for="stakeBack">Stake Back:</label>
+        <input type="number" id="stakeBack" step="any" min="0" placeholder="Ex.: 100" oninput="calcularBack()" />
+      </div>
+      <div>
+        <label for="oddBack">Odd Back:</label>
+        <input type="number" id="oddBack" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularBack()" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="oddLayBack">Odd Lay:</label>
+        <input type="number" id="oddLayBack" step="any" min="1" placeholder="Ex.: 1.80" oninput="calcularBack()" />
+      </div>
+    </div>
+
+    <div class="result">
+      <label for="stakeLayBack">Stake Lay para fechar:</label>
+      <input type="text" id="stakeLayBack" placeholder="--" disabled />
+    </div>
+
+    <div class="result">
+      <label for="resultadoBack">Lucro Garantido:</label>
+      <input type="text" id="resultadoBack" placeholder="--" disabled />
+    </div>
+  </div>
+
+  <!-- 🔴 Fechamento de LAY -->
+  <div class="container lay">
+    <h2>Fechamento de Aposta LAY → BACK</h2>
+
+    <div class="row">
+      <div>
+        <label for="stakeLay">Stake Lay:</label>
+        <input type="number" id="stakeLay" step="any" min="0" placeholder="Ex.: 100" oninput="calcularLay()" />
+      </div>
+      <div>
+        <label for="oddLay">Odd Lay:</label>
+        <input type="number" id="oddLay" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularLay()" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="oddBackLay">Odd Back:</label>
+        <input type="number" id="oddBackLay" step="any" min="1" placeholder="Ex.: 2.20" oninput="calcularLay()" />
+      </div>
+    </div>
+
+    <div class="result">
+      <label for="stakeBackLay">Stake Back para fechar:</label>
+      <input type="text" id="stakeBackLay" placeholder="--" disabled />
+    </div>
+
+    <div class="result">
+      <label for="resultadoLay">Lucro Garantido:</label>
+      <input type="text" id="resultadoLay" placeholder="--" disabled />
+    </div>
+  </div>
+</div>
+
+<script>
+  function calcularBack() {
+    const stake = parseFloat(document.getElementById('stakeBack').value);
+    const oddBack = parseFloat(document.getElementById('oddBack').value);
+    const oddLay = parseFloat(document.getElementById('oddLayBack').value);
+
+    if (!stake || !oddBack || !oddLay) {
+      document.getElementById('stakeLayBack').value = '--';
+      document.getElementById('resultadoBack').value = '--';
+      return;
+    }
+
+    const stakeLay = (stake * oddBack) / oddLay;
+    const lucro = (stakeLay * (oddLay - 1)) - (stake * (oddBack - 1));
+
+    document.getElementById('stakeLayBack').value = `R$ ${stakeLay.toFixed(2)}`;
+    document.getElementById('resultadoBack').value = `R$ ${lucro.toFixed(2)}`;
+  }
+
+  function calcularLay() {
+    const stake = parseFloat(document.getElementById('stakeLay').value);
+    const oddLay = parseFloat(document.getElementById('oddLay').value);
+    const oddBack = parseFloat(document.getElementById('oddBackLay').value);
+
+    if (!stake || !oddLay || !oddBack) {
+      document.getElementById('stakeBackLay').value = '--';
+      document.getElementById('resultadoLay').value = '--';
+      return;
+    }
+
+    const stakeBack = (stake * oddLay) / oddBack;
+    const lucro = (stakeBack * (oddBack - 1)) - (stake * (oddLay - 1));
+
+    document.getElementById('stakeBackLay').value = `R$ ${stakeBack.toFixed(2)}`;
+    document.getElementById('resultadoLay').value = `R$ ${lucro.toFixed(2)}`;
+  }
+</script>
+
+</body>
+</html>

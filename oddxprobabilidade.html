@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Calculadora Odds ↔ Probabilidade</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background:
+      linear-gradient(180deg, rgba(5,40,75,0.6), rgba(5,40,75,0.3)),
+      url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px 50px;
+    border-radius: 25px;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: #05284B;
+    margin-bottom: 35px;
+    letter-spacing: 1px;
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    color: #05284B;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    text-align: left;
+  }
+
+  .odds-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .odds-row > div {
+    flex: 1 1 45%;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1.2rem;
+    border-radius: 15px;
+    border: 2.5px solid #ccc;
+    font-weight: 600;
+    color: #05284B;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  input[type="number"]:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 8px 2px rgba(108, 99, 255, 0.5);
+    outline: none;
+  }
+
+  /* Inputs de probabilidade com fundo verde clarinho e texto centralizado */
+  .odds-row > div:nth-child(2) input[type="number"] {
+    background-color: #d6f5d6;
+    text-align: center;
+    color: #356635;
+    font-weight: 700;
+  }
+
+  button {
+    margin-top: 10px;
+    background-color: #05284B;
+    color: white;
+    border: none;
+    padding: 16px;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(5, 40, 75, 0.6);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  button:hover {
+    background-color: #07406E;
+    transform: scale(1.05);
+  }
+
+  /* Botão Home fixo e estiloso */
+  a.home-btn {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #05284B;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 35px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.15rem;
+    box-shadow: 0 6px 16px rgba(5, 40, 75, 0.7);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+    user-select: none;
+  }
+  a.home-btn:hover {
+    background-color: #07406E;
+    transform: translateX(-50%) scale(1.15);
+  }
+
+  /* Responsividade */
+  @media (max-width: 700px) {
+    .container {
+      padding: 30px 25px;
+    }
+    h2 {
+      font-size: 1.8rem;
+    }
+    .odds-row > div {
+      flex: 1 1 100%;
+    }
+  }
+  @media (max-width: 400px) {
+    button, a.home-btn {
+      font-size: 1rem;
+      padding: 12px 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-btn" title="Voltar para Home">🏠 Home</a>
+
+<div class="container">
+  <h2>Calculadora Odds ↔ Probabilidade</h2>
+
+  <div id="oddsContainer">
+    <div class="odds-row">
+      <div>
+        <label>Odd:</label>
+        <input type="number" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularConversao(this)">
+      </div>
+      <div>
+        <label>Probabilidade %:</label>
+        <input type="number" step="any" min="0" max="100" placeholder="Ex.: 50%" oninput="calcularConversao(this)">
+      </div>
+    </div>
+    <div class="odds-row">
+      <div>
+        <label>Odd:</label>
+        <input type="number" step="any" min="1" placeholder="Ex.: 3.00" oninput="calcularConversao(this)">
+      </div>
+      <div>
+        <label>Probabilidade %:</label>
+        <input type="number" step="any" min="0" max="100" placeholder="Ex.: 33.33%" oninput="calcularConversao(this)">
+      </div>
+    </div>
+  </div>
+
+  <button onclick="adicionarLinha()">+ Adicionar Linha</button>
+</div>
+
+<script>
+  function adicionarLinha() {
+    const linha = document.createElement('div');
+    linha.className = 'odds-row';
+
+    linha.innerHTML = `
+      <div>
+        <label>Odd:</label>
+        <input type="number" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularConversao(this)">
+      </div>
+      <div>
+        <label>Probabilidade %:</label>
+        <input type="number" step="any" min="0" max="100" placeholder="Ex.: 50%" oninput="calcularConversao(this)">
+      </div>
+    `;
+
+    document.getElementById('oddsContainer').appendChild(linha);
+  }
+
+  function calcularConversao(elemento) {
+    const linha = elemento.closest('.odds-row');
+    const inputs = linha.querySelectorAll('input');
+
+    const oddInput = inputs[0];
+    const probInput = inputs[1];
+
+    const odd = parseFloat(oddInput.value);
+    const prob = parseFloat(probInput.value);
+
+    if (elemento === oddInput && odd > 0) {
+      const probCalc = (100 / odd).toFixed(2);
+      probInput.value = probCalc;
+    } else if (elemento === probInput && prob > 0) {
+      const oddCalc = (100 / prob).toFixed(2);
+      oddInput.value = oddCalc;
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛠️ FERRAMENTAS PUNTER 🔥</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, rgba(5, 40, 75, 0.85), rgba(5, 40, 75, 0.85)), 
+                  url('https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-top: 20px;
+      margin-bottom: 30px;
+      color: #fff;
+      text-align: center;
+      font-size: 2.8rem;
+      letter-spacing: 1px;
+      animation: fadeInDown 1s ease;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    .button {
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 3px solid #05284B;
+      color: #05284B;
+      padding: 15px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 18px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(5, 40, 75, 0.2);
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #05284B;
+      color: white;
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(5, 40, 75, 0.4);
+    }
+
+    footer {
+      margin-top: 40px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.8rem;
+      text-align: center;
+      animation: fadeIn 2s ease;
+    }
+
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .button {
+        font-size: 1rem;
+        padding: 12px;
+      }
+    }
+
+    /* Animações */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛠️ FERRAMENTAS PUNTER 🔥</h1>
+
+  <div class="container">
+    <a class="button" href="oddxprobabilidade.html">🔢 Odds ⇄ Probabilidade</a>
+    <a class="button" href="overround.html">🏦 Margem da Casa (Overround)</a>
+    <a class="button" href="transformar_lay_para_back.html">🔄 Lay ⇄ Back</a>
+    <a class="button" href="fechamento_de_aposta.html">💰 Cashout Manual</a>
+    <a class="button" href="odds_justas.html">⚖️ Odds Justas (Fair Odds)</a>
+    <a class="button" href="surebet.html">🤑 Calculadora Surebet</a>
+    <a class="button" href="dutching.html">🎯 Calculadora Dutching</a>
+    <a class="button" href="kelly_criterion.html">📈 Kelly Criterion</a>
+  </div>
+
+  <footer>
+    © João Marcos
+  </footer>
+
+</body>
+</html>

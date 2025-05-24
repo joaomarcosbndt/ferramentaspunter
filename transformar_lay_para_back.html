@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lay equivale a um Back a:</title>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background:
+          linear-gradient(rgba(245, 247, 250, 0.85), rgba(195, 207, 226, 0.85)),
+          url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        background-color: white;
+        padding: 40px 50px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 700px;
+        font-size: 18px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-weight: bold;
+    }
+
+    input[type="number"] {
+        background-color: #ffe4ec; /* rosa claro */
+    }
+
+    input[readonly] {
+        background-color: #d4ebff; /* azul claro */
+    }
+
+    input {
+        width: 100%;
+        padding: 14px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-size: 18px;
+        transition: border-color 0.3s;
+    }
+
+    input:focus {
+        border-color: #6c63ff;
+        outline: none;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            max-width: 90%;
+            padding: 30px 25px;
+        }
+        h2 {
+            font-size: 22px;
+        }
+        input {
+            font-size: 16px;
+            padding: 12px;
+        }
+    }
+
+    /* Botão Home estilizado fixo na parte de baixo */
+    a[href="index.html"] {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #05284B;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        transition: transform 0.2s ease, background-color 0.2s ease;
+        z-index: 999;
+    }
+
+    a[href="index.html"]:hover {
+        transform: translateX(-50%) scale(1.1);
+        background-color: #07406E;
+    }
+</style>
+</head>
+<body>
+
+<a href="index.html" title="Voltar para Home">🏠 Home</a>
+
+<div class="container">
+    <h2>CALCULADORA</h2>
+
+    <label for="oddLay">ODD DO LAY:</label>
+    <input type="number" id="oddLay" step="any" min="1" placeholder="Digite a odd do Lay">
+
+    <label for="resultado">LAY EQUIVALE A UM BACK A:</label>
+    <input type="text" id="resultado" readonly placeholder="Resultado aparecerá aqui">
+</div>
+
+<script>
+    const oddLayInput = document.getElementById('oddLay');
+    const resultadoInput = document.getElementById('resultado');
+
+    oddLayInput.addEventListener('input', function() {
+        const oddLay = parseFloat(oddLayInput.value);
+        if (oddLay && oddLay > 1) {
+            const resultado = 100 / (100 - (100 / oddLay));
+            resultadoInput.value = resultado.toFixed(2);
+        } else {
+            resultadoInput.value = '';
+        }
+    });
+</script>
+
+</body>
+</html>

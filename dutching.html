@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculadora de Dutching</title>
+<style>
+  /* Reset básico */
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Imagem de fundo + degradê */
+    background:
+      linear-gradient(135deg, rgba(224,240,255,0.8), rgba(204,231,255,0.85), rgba(179,215,255,0.9)),
+      url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #05284B;
+    overflow-x: hidden;
+  }
+
+  /* Animação leve do background */
+  @keyframes bgMove {
+    0% { background-position: center 40%; }
+    50% { background-position: center 60%; }
+    100% { background-position: center 40%; }
+  }
+
+  body {
+    animation: bgMove 30s ease-in-out infinite;
+  }
+
+  .container {
+    background: rgba(255 255 255 / 0.9);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(5, 40, 75, 0.15);
+    width: 100%;
+    max-width: 600px;
+    padding: 30px 40px;
+    animation: fadeInUp 0.8s ease forwards, pulseShadow 3s ease-in-out infinite;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulseShadow {
+    0%, 100% {
+      box-shadow: 0 12px 30px rgba(5, 40, 75, 0.15);
+    }
+    50% {
+      box-shadow: 0 18px 40px rgba(5, 40, 75, 0.3);
+    }
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: #05284B;
+    letter-spacing: 1.2px;
+  }
+
+  label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  input[type="number"], input[disabled] {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 2px solid #c1d9ff;
+    font-size: 1.1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  input[type="number"]:focus {
+    border-color: #05284B;
+    box-shadow: 0 0 12px #a2c8ff;
+    outline: none;
+  }
+
+  input[disabled] {
+    background: #d4ebff;
+    color: #05284B;
+    font-weight: 600;
+    cursor: default;
+  }
+
+  .odds-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: flex-end;
+  }
+
+  .odds-row > div {
+    flex: 1;
+  }
+
+  button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background-color: #ff69b4;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.35);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  button:hover {
+    background-color: #e85da1;
+    transform: scale(1.05);
+  }
+
+  .result {
+    margin-top: 25px;
+    background-color: #d4ebff;
+    padding: 18px 20px;
+    border-radius: 15px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #05284B;
+    text-align: center;
+    box-shadow: inset 0 0 8px #a2c8ff;
+  }
+
+  /* Responsividade */
+  @media (max-width: 500px) {
+    .container {
+      padding: 20px 25px;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    .odds-row {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" style="
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #05284B;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  z-index: 999;
+" 
+onmouseover="this.style.transform='translateX(-50%) scale(1.1)'; this.style.backgroundColor='#07406E';" 
+onmouseout="this.style.transform='translateX(-50%) scale(1)'; this.style.backgroundColor='#05284B';"
+title="Voltar para Home">🏠 Home</a>
+
+<div class="container">
+  <h2>Calculadora de Dutching</h2>
+
+  <label for="stake">Stake Total (R$):</label>
+  <input type="number" id="stake" step="any" min="1" placeholder="Ex.: 100" oninput="calcularDutching()" />
+
+  <div id="oddsContainer">
+    <div class="odds-row">
+      <div>
+        <label>Odd 1:</label>
+        <input type="number" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularDutching()" />
+      </div>
+      <div>
+        <label>Stake:</label>
+        <input type="text" disabled placeholder="Aposta" />
+      </div>
+    </div>
+
+    <div class="odds-row">
+      <div>
+        <label>Odd 2:</label>
+        <input type="number" step="any" min="1" placeholder="Ex.: 3.00" oninput="calcularDutching()" />
+      </div>
+      <div>
+        <label>Stake:</label>
+        <input type="text" disabled placeholder="Aposta" />
+      </div>
+    </div>
+  </div>
+
+  <button onclick="adicionarOdd()">+ Adicionar Odd</button>
+
+  <div class="result" id="resultado">Resultado aparecerá aqui</div>
+</div>
+
+<script>
+  const oddsContainer = document.getElementById('oddsContainer');
+  const resultado = document.getElementById('resultado');
+
+  function adicionarOdd() {
+    const quantidade = oddsContainer.children.length + 1;
+
+    const div = document.createElement('div');
+    div.className = 'odds-row';
+
+    div.innerHTML = `
+      <div>
+        <label>Odd ${quantidade}:</label>
+        <input type="number" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularDutching()" />
+      </div>
+      <div>
+        <label>Stake:</label>
+        <input type="text" disabled placeholder="Aposta" />
+      </div>
+    `;
+
+    oddsContainer.appendChild(div);
+  }
+
+  function calcularDutching() {
+    const stakeTotal = parseFloat(document.getElementById('stake').value);
+    const oddsRows = oddsContainer.querySelectorAll('.odds-row');
+
+    let denominador = 0;
+    const odds = [];
+
+    oddsRows.forEach(row => {
+      const oddInput = row.querySelector('input[type="number"]');
+      const odd = parseFloat(oddInput.value);
+      if (odd && odd > 1) {
+        odds.push({ odd, row });
+        denominador += 1 / odd;
+      }
+    });
+
+    if (!stakeTotal || stakeTotal <= 0 || odds.length < 2) {
+      resultado.innerHTML = "Preencha o stake e pelo menos duas odds válidas.";
+      odds.forEach(o => o.row.querySelector('input[disabled]').value = '');
+      return;
+    }
+
+    const retorno = stakeTotal / denominador;
+
+    odds.forEach(o => {
+      const stake = retorno / o.odd;
+      o.row.querySelector('input[disabled]').value = `R$ ${stake.toFixed(2)}`;
+    });
+
+    resultado.innerHTML = `
+      🧠 Dutching Calculado!<br><br>
+      🔥 Retorno garantido: <strong>R$ ${retorno.toFixed(2)}</strong>
+    `;
+  }
+</script>
+
+</body>
+</html>

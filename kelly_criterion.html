@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculadora Kelly Criterion</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      linear-gradient(135deg, rgba(255, 240, 250, 0.85), rgba(240, 245, 255, 0.85)),
+      url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+    color: #05284B;
+    animation: bgMove 30s ease-in-out infinite;
+  }
+  @keyframes bgMove {
+    0%, 100% { background-position: center; }
+    50% { background-position: top left; }
+  }
+  .container {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 35px 40px;
+    border-radius: 25px;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+    max-width: 480px;
+    width: 100%;
+  }
+  h2 {
+    text-align: center;
+    color: #05284B;
+    margin-bottom: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    color: #3a3a3a;
+    margin-bottom: 8px;
+  }
+  input[type="number"], input[disabled] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 17px;
+    border: 2.5px solid #cbd5e1;
+    border-radius: 15px;
+    transition: border-color 0.3s ease;
+    font-weight: 500;
+    color: #222;
+  }
+  input[type="number"]:focus {
+    border-color: #6c63ff;
+    outline: none;
+    background-color: #f9f9ff;
+  }
+  /* Azul bonitão nas caixas de resultado */
+  input[disabled] {
+    background-color: #d0e4ff;
+    color: #05284B;
+    font-weight: 700;
+    text-align: center;
+  }
+  .result {
+    margin-top: 18px;
+  }
+  /* Botão Home estiloso fixo */
+  a.home-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #05284B;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 35px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.38);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    z-index: 999;
+  }
+  a.home-btn:hover {
+    background-color: #07406E;
+    transform: translateX(-50%) scale(1.1);
+  }
+
+  /* Responsividade */
+  @media (max-width: 600px) {
+    .container {
+      padding: 25px 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    input[type="number"], input[disabled] {
+      padding: 12px 14px;
+      font-size: 16px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-btn" title="Voltar para Home">🏠 Home</a>
+
+<div class="container">
+  <h2>Calculadora Kelly Criterion</h2>
+
+  <label for="odd">Odd da aposta:</label>
+  <input type="number" id="odd" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularKelly()" />
+
+  <label for="prob">Probabilidade estimada (%):</label>
+  <input type="number" id="prob" step="any" min="0" max="100" placeholder="Ex.: 60" oninput="calcularKelly()" />
+
+  <label for="bankroll">Bankroll (opcional):</label>
+  <input type="number" id="bankroll" step="any" min="0" placeholder="Ex.: 1000" oninput="calcularKelly()" />
+
+  <div class="result">
+    <label>Fração do bankroll a apostar:</label>
+    <input type="text" id="fração" placeholder="--" disabled />
+  </div>
+
+  <div class="result">
+    <label>Valor sugerido da aposta:</label>
+    <input type="text" id="valorAposta" placeholder="--" disabled />
+  </div>
+</div>
+
+<script>
+  function calcularKelly() {
+    const odd = parseFloat(document.getElementById('odd').value);
+    const prob = parseFloat(document.getElementById('prob').value) / 100;
+    const bankroll = parseFloat(document.getElementById('bankroll').value);
+
+    if (!odd || !prob) {
+      document.getElementById('fração').value = '--';
+      document.getElementById('valorAposta').value = '--';
+      return;
+    }
+
+    const fração = ((odd * prob) - 1) / (odd - 1);
+
+    if (fração <= 0) {
+      document.getElementById('fração').value = 'Não apostar';
+      document.getElementById('valorAposta').value = 'Não apostar';
+    } else {
+      const valorAposta = bankroll ? fração * bankroll : '-';
+      document.getElementById('fração').value = `${(fração * 100).toFixed(2)} %`;
+      document.getElementById('valorAposta').value = bankroll ? `R$ ${valorAposta.toFixed(2)}` : 'Informe bankroll';
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calculadora de Overround</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(135deg, #05284B, #4b67a1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px 35px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 600px;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            color: #05284B;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        .odds-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #05284B;
+            font-weight: 600;
+        }
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ccc;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: #f9f9ff;
+            color: #05284B;
+        }
+        input:focus {
+            border-color: #6c63ff;
+            box-shadow: 0 0 8px #6c63ffaa;
+            outline: none;
+            background-color: #e1e3ff;
+        }
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        button.add-button {
+            flex: 1;
+            background: linear-gradient(135deg, #05284B, #4b67a1);
+            color: white;
+            border: none;
+            padding: 14px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 12px rgba(4, 31, 77, 0.7);
+        }
+        button.add-button:hover {
+            background: linear-gradient(135deg, #07406E, #344f94);
+            transform: translateY(-2px);
+        }
+        .result {
+            margin-top: 30px;
+            background-color: #d4ebff;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            color: #05284B;
+            box-shadow: inset 0 0 10px #a1c8ff;
+            min-height: 56px;
+            user-select: none;
+        }
+        a.home-link {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #05284B;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            z-index: 999;
+            user-select: none;
+        }
+        a.home-link:hover {
+            background-color: #07406E;
+            transform: translateX(-50%) scale(1.1);
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 20px;
+            }
+            h2 {
+                font-size: 22px;
+            }
+            button.add-button {
+                font-size: 14px;
+            }
+            a.home-link {
+                font-size: 16px;
+                padding: 10px 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="home-link" title="Voltar para Home">🏠 Home</a>
+
+<div class="container">
+    <h2>Calculadora de Overround</h2>
+
+    <div id="oddsContainer">
+        <div class="odds-group">
+            <label for="odd1">Odd 1:</label>
+            <input id="odd1" type="number" step="any" min="1" placeholder="Ex.: 1.80" />
+        </div>
+        <div class="odds-group">
+            <label for="odd2">Odd 2:</label>
+            <input id="odd2" type="number" step="any" min="1" placeholder="Ex.: 2.00" />
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button class="add-button" onclick="adicionarOdd()">+ Adicionar Odd</button>
+    </div>
+
+    <div class="result" id="resultado">Resultado aparecerá aqui</div>
+</div>
+
+<script>
+    const oddsContainer = document.getElementById('oddsContainer');
+    const resultado = document.getElementById('resultado');
+
+    function adicionarOdd() {
+        const quantidadeOdds = oddsContainer.children.length + 1;
+
+        const div = document.createElement('div');
+        div.className = 'odds-group';
+
+        const label = document.createElement('label');
+        label.setAttribute('for', `odd${quantidadeOdds}`);
+        label.innerText = `Odd ${quantidadeOdds}:`;
+
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.step = 'any';
+        input.min = '1';
+        input.id = `odd${quantidadeOdds}`;
+        input.placeholder = 'Digite a odd';
+        input.addEventListener('input', calcularOverround);  // atualiza resultado ao digitar
+
+        div.appendChild(label);
+        div.appendChild(input);
+        oddsContainer.appendChild(div);
+    }
+
+    function calcularOverround() {
+        const inputs = oddsContainer.querySelectorAll('input');
+        let overround = 0;
+        let oddsValidas = 0;
+
+        inputs.forEach(input => {
+            const odd = parseFloat(input.value);
+            if (odd && odd > 1) {
+                overround += 100 / odd;
+                oddsValidas++;
+            }
+        });
+
+        if (oddsValidas >= 2) {
+            resultado.innerHTML = `
+                Overround: <span style="color:#05284B;">${overround.toFixed(2)}%</span><br>
+                Margem da casa: <span style="color:#ff69b4;">${(overround - 100).toFixed(2)}%</span>
+            `;
+        } else {
+            resultado.textContent = "Preencha pelo menos duas odds válidas.";
+        }
+    }
+
+    // adiciona evento para atualizar resultado em inputs já existentes
+    oddsContainer.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', calcularOverround);
+    });
+
+    // calcula inicialmente (caso haja valores)
+    calcularOverround();
+</script>
+
+</body>
+</html>
