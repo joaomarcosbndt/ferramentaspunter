@@ -4,54 +4,62 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title>Calculadora Odds ↔ Probabilidade</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
+<!-- Fonte Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* Reset e fonte */
   * {
     box-sizing: border-box;
   }
-
   body, html {
     height: 100%;
     margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background:
-      linear-gradient(180deg, rgba(5,40,75,0.6), rgba(5,40,75,0.3)),
-      url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
-    background-size: cover;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f0faff, #ffffff);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 40px;
   }
 
+  /* Container/Card */
   .container {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 40px 50px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 50px 60px;
     border-radius: 25px;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.15);
     width: 100%;
-    max-width: 700px;
+    max-width: 900px;
     text-align: center;
+    transition: box-shadow 0.4s ease;
   }
 
+  .container:hover {
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Título */
   h2 {
     font-weight: 700;
-    font-size: 2.2rem;
+    font-size: 2.8rem;
     color: #05284B;
     margin-bottom: 35px;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
   }
 
+  /* Labels */
   label {
     display: block;
     font-weight: 600;
     color: #05284B;
     margin-bottom: 8px;
-    font-size: 1rem;
+    font-size: 1.05rem;
     text-align: left;
   }
 
+  /* Layout das linhas */
   .odds-row {
     display: flex;
     gap: 20px;
@@ -63,24 +71,28 @@
     flex: 1 1 45%;
   }
 
+  /* Inputs padrão */
   input[type="number"] {
     width: 100%;
     padding: 14px 18px;
     font-size: 1.2rem;
     border-radius: 15px;
-    border: 2.5px solid #ccc;
+    border: 2px solid #ccc;
     font-weight: 600;
     color: #05284B;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
   }
 
-  input[type="number"]:focus {
-    border-color: #6c63ff;
-    box-shadow: 0 0 8px 2px rgba(108, 99, 255, 0.5);
+  /* Efeito de foco e hover */
+  input[type="number"]:focus,
+  input[type="number"]:hover {
+    border-color: #4FACFE;
+    box-shadow: 0 0 8px 2px rgba(79, 172, 254, 0.4);
     outline: none;
+    transform: scale(1.02);
   }
 
-  /* Inputs de probabilidade com fundo verde clarinho e texto centralizado */
+  /* Input de probabilidade específico */
   .odds-row > div:nth-child(2) input[type="number"] {
     background-color: #d6f5d6;
     text-align: center;
@@ -88,9 +100,10 @@
     font-weight: 700;
   }
 
+  /* Botões */
   button {
     margin-top: 10px;
-    background-color: #05284B;
+    background-color: #4FACFE;
     color: white;
     border: none;
     padding: 16px;
@@ -99,53 +112,64 @@
     font-weight: 700;
     border-radius: 15px;
     cursor: pointer;
-    box-shadow: 0 6px 15px rgba(5, 40, 75, 0.6);
+    box-shadow: 0 6px 15px rgba(79, 172, 254, 0.6);
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
   button:hover {
-    background-color: #07406E;
-    transform: scale(1.05);
+    background-color: #3a9be0;
+    transform: scale(1.02);
+  }
+  button:focus {
+    outline: 3px solid rgba(79, 172, 254, 0.6);
+    outline-offset: 3px;
   }
 
-  /* Botão Home fixo e estiloso */
+  /* Botão flutuante Home */
   a.home-btn {
     position: fixed;
     bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #05284B;
+    background-color: #4FACFE;
     color: white;
     padding: 14px 28px;
     border-radius: 35px;
     text-decoration: none;
     font-weight: 700;
     font-size: 1.15rem;
-    box-shadow: 0 6px 16px rgba(5, 40, 75, 0.7);
+    box-shadow: 0 6px 16px rgba(79, 172, 254, 0.7);
     transition: background-color 0.3s ease, transform 0.3s ease;
     z-index: 9999;
     user-select: none;
   }
   a.home-btn:hover {
-    background-color: #07406E;
-    transform: translateX(-50%) scale(1.15);
+    background-color: #3a9be0;
+    transform: translateX(-50%) scale(1.02);
+  }
+  a.home-btn:focus {
+    outline: 3px solid rgba(79, 172, 254, 0.6);
+    outline-offset: 3px;
   }
 
   /* Responsividade */
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     .container {
-      padding: 30px 25px;
+      padding: 40px 30px;
     }
     h2 {
-      font-size: 1.8rem;
+      font-size: 2.2rem;
     }
     .odds-row > div {
       flex: 1 1 100%;
     }
   }
-  @media (max-width: 400px) {
-    button, a.home-btn {
-      font-size: 1rem;
-      padding: 12px 20px;
+  @media (min-width: 1600px) {
+    .container {
+      max-width: 1000px;
+      padding: 60px 80px;
+    }
+    h2 {
+      font-size: 3rem;
     }
   }
 </style>
