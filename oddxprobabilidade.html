@@ -9,178 +9,173 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
- /* Reset e fonte */
-* {
-  box-sizing: border-box;
-}
-body, html {
-  height: 100%;
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #f0faff, #ffffff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
-}
+  /* Reset e fonte */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f0faff, #ffffff);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+    min-height: 100vh;
+  }
 
-/* Container/Card */
-.container {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 50px 60px;
-  border-radius: 25px;
-  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 900px;
-  text-align: center;
-  transition: box-shadow 0.4s ease;
-}
+  /* Título fora do container */
+  h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    color: #05284B;
+    margin: 0 0 30px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+  }
 
-.container:hover {
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
-}
-
-/* Título */
-h2 {
-  font-weight: 700;
-  font-size: 2.8rem;
-  color: #05284B;
-  margin-bottom: 35px;
-  letter-spacing: 0.5px;
-}
-
-/* Labels */
-label {
-  display: block;
-  font-weight: 600;
-  color: #05284B;
-  margin-bottom: 8px;
-  font-size: 1.05rem;
-  text-align: left;
-}
-
-/* Layout das linhas */
-.odds-row {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.odds-row > div {
-  flex: 1 1 45%;
-}
-
-/* Inputs padrão */
-input[type="number"] {
-  width: 100%;
-  padding: 14px 18px;
-  font-size: 1.2rem;
-  border-radius: 15px;
-  border: 2px solid #ccc;
-  font-weight: 600;
-  color: #05284B;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-/* Efeito de foco e hover */
-input[type="number"]:focus,
-input[type="number"]:hover {
-  border-color: #4FACFE;
-  box-shadow: 0 0 8px 2px rgba(79, 172, 254, 0.4);
-  outline: none;
-  transform: scale(1.02);
-}
-
-/* Input de probabilidade específico */
-.odds-row > div:nth-child(2) input[type="number"] {
-  background-color: #d6f5d6;
-  text-align: center;
-  color: #356635;
-  font-weight: 700;
-}
-
-/* Botões */
-button {
-  margin-top: 10px;
-  background-color: #4FACFE;
-  color: white;
-  border: none;
-  padding: 16px;
-  width: 100%;
-  font-size: 1.2rem;
-  font-weight: 700;
-  border-radius: 15px;
-  cursor: pointer;
-  box-shadow: 0 6px 15px rgba(79, 172, 254, 0.6);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-button:hover {
-  background-color: #3a9be0;
-  transform: scale(1.02);
-}
-button:focus {
-  outline: 3px solid rgba(79, 172, 254, 0.6);
-  outline-offset: 3px;
-}
-
-/* Botão flutuante Home */
-a.home-btn {
-  position: fixed;
-  bottom: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #4FACFE;
-  color: white;
-  padding: 14px 28px;
-  border-radius: 35px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1.15rem;
-  box-shadow: 0 6px 16px rgba(79, 172, 254, 0.7);
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  z-index: 9999;
-  user-select: none;
-}
-a.home-btn:hover {
-  background-color: #3a9be0;
-  transform: translateX(-50%) scale(1.02);
-}
-a.home-btn:focus {
-  outline: 3px solid rgba(79, 172, 254, 0.6);
-  outline-offset: 3px;
-}
-
-/* Responsividade */
-@media (max-width: 900px) {
+  /* Container/Card */
   .container {
-    padding: 40px 30px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 50px 60px;
+    border-radius: 25px;
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    transition: box-shadow 0.4s ease;
   }
-  h2 {
-    font-size: 2.2rem;
-  }
-  .odds-row > div {
-    flex: 1 1 100%;
-    min-width: auto;
-  }
-}
 
-@media (max-width: 480px) {
-  h2 {
-    font-size: 1.8rem;
+  .container:hover,
+  .container:focus-within {
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Labels */
+  label {
+    display: block;
+    font-weight: 600;
+    color: #05284B;
+    margin-bottom: 8px;
+    font-size: 1.05rem;
+    text-align: left;
+  }
+
+  /* Layout das linhas */
+  .odds-row {
+    display: flex;
+    gap: 20px;
     margin-bottom: 20px;
-    padding: 0 10px;
+    flex-wrap: wrap;
   }
-}
 
-@media (min-width: 1600px) {
-  .container {
-    max-width: 1100px;
-    padding: 60px 100px;
+  .odds-row > div {
+    flex: 1 1 45%;
+    min-width: 250px;
   }
-  h2 {
-    font-size: 3.5rem;
-}
+
+  /* Inputs padrão */
+  input[type="number"] {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1.2rem;
+    border-radius: 15px;
+    border: 2px solid #ccc;
+    font-weight: 600;
+    color: #05284B;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  }
+
+  /* Efeito de foco e hover */
+  input[type="number"]:focus,
+  input[type="number"]:hover {
+    border-color: #4FACFE;
+    box-shadow: 0 0 8px 2px rgba(79, 172, 254, 0.4);
+    outline: none;
+    transform: scale(1.02);
+  }
+
+  /* Input de probabilidade específico */
+  .odds-row > div:nth-child(2) input[type="number"] {
+    background-color: #d6f5d6;
+    text-align: center;
+    color: #356635;
+    font-weight: 700;
+  }
+
+  /* Botões */
+  button {
+    margin-top: 10px;
+    background-color: #4FACFE;
+    color: white;
+    border: none;
+    padding: 16px;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(79, 172, 254, 0.6);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  button:hover,
+  button:focus {
+    background-color: #3a9be0;
+    transform: scale(1.02);
+    outline: 3px solid rgba(79, 172, 254, 0.6);
+    outline-offset: 3px;
+  }
+
+  /* Botão flutuante Home */
+  a.home-btn {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4FACFE;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 35px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.15rem;
+    box-shadow: 0 6px 16px rgba(79, 172, 254, 0.7);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+    user-select: none;
+  }
+  a.home-btn:hover,
+  a.home-btn:focus {
+    background-color: #3a9be0;
+    transform: translateX(-50%) scale(1.02);
+    outline: 3px solid rgba(79, 172, 254, 0.6);
+    outline-offset: 3px;
+  }
+
+  /* Responsividade */
+  @media (max-width: 900px) {
+    .container {
+      padding: 40px 30px;
+    }
+    h2 {
+      font-size: 2.2rem;
+    }
+    .odds-row > div {
+      flex: 1 1 100%;
+      min-width: auto;
+    }
+  }
+  @media (min-width: 1600px) {
+    .container {
+      max-width: 1100px;
+      padding: 60px 100px;
+    }
+    h2 {
+      font-size: 3.5rem;
+    }
   }
 </style>
 </head>
