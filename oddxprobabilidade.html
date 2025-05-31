@@ -19,9 +19,22 @@
     font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #f0faff, #ffffff);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    padding: 40px;
+    padding: 40px 20px 60px;
+    min-height: 100vh;
+  }
+
+  /* Título fora do container */
+  h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    color: #05284B;
+    margin: 0 0 30px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
   }
 
   /* Container/Card */
@@ -36,17 +49,9 @@
     transition: box-shadow 0.4s ease;
   }
 
-  .container:hover {
+  .container:hover,
+  .container:focus-within {
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
-  }
-
-  /* Título */
-  h2 {
-    font-weight: 700;
-    font-size: 2.8rem;
-    color: #05284B;
-    margin-bottom: 35px;
-    letter-spacing: 0.5px;
   }
 
   /* Labels */
@@ -69,6 +74,7 @@
 
   .odds-row > div {
     flex: 1 1 45%;
+    min-width: 250px;
   }
 
   /* Inputs padrão */
@@ -115,11 +121,10 @@
     box-shadow: 0 6px 15px rgba(79, 172, 254, 0.6);
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
-  button:hover {
+  button:hover,
+  button:focus {
     background-color: #3a9be0;
     transform: scale(1.02);
-  }
-  button:focus {
     outline: 3px solid rgba(79, 172, 254, 0.6);
     outline-offset: 3px;
   }
@@ -142,11 +147,10 @@
     z-index: 9999;
     user-select: none;
   }
-  a.home-btn:hover {
+  a.home-btn:hover,
+  a.home-btn:focus {
     background-color: #3a9be0;
     transform: translateX(-50%) scale(1.02);
-  }
-  a.home-btn:focus {
     outline: 3px solid rgba(79, 172, 254, 0.6);
     outline-offset: 3px;
   }
@@ -161,62 +165,72 @@
     }
     .odds-row > div {
       flex: 1 1 100%;
+      min-width: auto;
     }
   }
   @media (min-width: 1600px) {
     .container {
-      max-width: 1000px;
-      padding: 60px 80px;
+      max-width: 1100px;
+      padding: 60px 100px;
     }
     h2 {
-      font-size: 3rem;
+      font-size: 3.5rem;
     }
   }
 </style>
 </head>
 <body>
  <h2>Calculadora Odds ↔ Probabilidade</h2>
-<div class="container">
+<div class="container" role="main" aria-label="Calculadora de Odds e Probabilidade">
 
   <div id="oddsContainer">
     <div class="odds-row">
       <div>
-        <label>Odd:</label>
-        <input type="number" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularConversao(this)">
+        <label for="odd1">Odd:</label>
+        <input id="odd1" type="number" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularConversao(this)" aria-describedby="oddHelp1" />
+        <small id="oddHelp1" style="display:none;">Insira a odd para calcular a probabilidade</small>
       </div>
       <div>
-        <label>Probabilidade %:</label>
-        <input type="number" step="any" min="0" max="100" placeholder="Ex.: 50%" oninput="calcularConversao(this)">
+        <label for="prob1">Probabilidade %:</label>
+        <input id="prob1" type="number" step="any" min="0" max="100" placeholder="Ex.: 50%" oninput="calcularConversao(this)" aria-describedby="probHelp1" />
+        <small id="probHelp1" style="display:none;">Insira a probabilidade para calcular a odd</small>
       </div>
     </div>
     <div class="odds-row">
       <div>
-        <label>Odd:</label>
-        <input type="number" step="any" min="1" placeholder="Ex.: 3.00" oninput="calcularConversao(this)">
+        <label for="odd2">Odd:</label>
+        <input id="odd2" type="number" step="any" min="1" placeholder="Ex.: 3.00" oninput="calcularConversao(this)" aria-describedby="oddHelp2" />
+        <small id="oddHelp2" style="display:none;">Insira a odd para calcular a probabilidade</small>
       </div>
       <div>
-        <label>Probabilidade %:</label>
-        <input type="number" step="any" min="0" max="100" placeholder="Ex.: 33.33%" oninput="calcularConversao(this)">
+        <label for="prob2">Probabilidade %:</label>
+        <input id="prob2" type="number" step="any" min="0" max="100" placeholder="Ex.: 33.33%" oninput="calcularConversao(this)" aria-describedby="probHelp2" />
+        <small id="probHelp2" style="display:none;">Insira a probabilidade para calcular a odd</small>
       </div>
     </div>
   </div>
 
-  <button onclick="adicionarLinha()">+ Adicionar Linha</button>
+  <button onclick="adicionarLinha()" aria-label="Adicionar nova linha de odds e probabilidade">+ Adicionar Linha</button>
 </div>
 
 <script>
+  let count = 2;
+
   function adicionarLinha() {
+    count++;
     const linha = document.createElement('div');
     linha.className = 'odds-row';
 
     linha.innerHTML = `
       <div>
-        <label>Odd:</label>
-        <input type="number" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularConversao(this)">
+        <label for="odd${count}">Odd:</label>
+        <input id="odd${count}" type="number" step="any" min="1" placeholder="Ex.: 2.00" oninput="calcularConversao(this)" aria-describedby="oddHelp${count}" />
+        <small id="oddHelp${count}" style="display:none;">Insira a odd para calcular a probabilidade</small>
       </div>
       <div>
-        <label>Probabilidade %:</label>
-        <input type="number" step="any" min="0" max="100" placeholder="Ex.: 50%" oninput="calcularConversao(this)">
+        <label for="prob${count}">Probabilidade %:</label>
+        <input id="prob${count}" type="number" step="any" min="0" max="100" placeholder="Ex.: 50%" oninput="calcularConversao(this)" aria-describedby="probHelp${count}" />
+        <small id="probHelp${count}" style="display:none;">Insira a probabilidade para calcular a odd</small>
       </div>
     `;
 
