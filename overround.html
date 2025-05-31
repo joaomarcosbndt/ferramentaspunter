@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Calculadora de Overround</title>
+
+    <!-- Fonte Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         * {
             box-sizing: border-box;
@@ -11,24 +15,33 @@
             padding: 0;
         }
         body {
-            background: linear-gradient(135deg, #05284B, #4b67a1);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+             height: 100%;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0faff, #ffffff);
             display: flex;
             justify-content: center;
+            flex-direction: column;
             align-items: center;
+            padding: 40px 20px 60px;
             min-height: 100vh;
-            padding: 20px;
-            color: white;
         }
-        .container {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 30px 35px;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+       .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 60px;
+            border-radius: 25px;
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.15);
             width: 100%;
-            max-width: 600px;
-            color: #333;
-        }
+            max-width: 900px;
+            text-align: center;
+            transition: box-shadow 0.4s ease;
+          }
+
+          .container:hover,
+          .container:focus-within {
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+          }
+        
         h2 {
             text-align: center;
             color: #05284B;
@@ -135,10 +148,9 @@
 </head>
 <body>
 
-<a href="index.html" class="home-link" title="Voltar para Home">🏠 Home</a>
+ <h2>Calculadora de Overround</h2>
 
 <div class="container">
-    <h2>Calculadora de Overround</h2>
 
     <div id="oddsContainer">
         <div class="odds-group">
